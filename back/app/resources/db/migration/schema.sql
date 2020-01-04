@@ -4,8 +4,7 @@ CREATE TABLE IF NOT EXISTS "company" (
     company_name character varying(50) NOT NULL,
     symbol character varying(20) NOT NULL UNIQUE,
     region character varying(50) NOT NULL,
-    market_open character varying(5) NOT NULL,
-    market_close character varying(5) NOT NULL
+    global_position character varying(5) NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS "company_stock" (

@@ -2,10 +2,17 @@ from sanic import response, Blueprint
 import app.rest.company_service as service
 
 
-company = Blueprint('alpha', url_prefix='/empresas')
+company = Blueprint('company', url_prefix='/empresas')
 
 
 @company.route("/top-10", methods=['GET'])
 async def get_top_10_companies(request):
-    return response.json('uau', status=200)
+    resp, stts = await service.get_top_10_companies(request)
+    return response.json(resp, status=stts)
+
+
+@company.route("/<company_symbol>/cotacao", methods=['GET'])
+async def get_company_stock(request, company_symbol):
+    resp, stts = await service.get_company_stock(request, company_symbol)
+    return response.json(resp, status=stts)
 
