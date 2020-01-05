@@ -1,8 +1,9 @@
-from sanic import Sanic, response
-from app import api
+from app.rest.company import company_service
 from asyncpg import create_pool, connect
-from app import consts
-import app.rest.company_service as company_service
+from app.rest.blueprints import api
+from app.util import consts
+from sanic import Sanic
+
 
 app = Sanic(__name__)
 app.blueprint(api)
@@ -31,11 +32,6 @@ async def close_connection(app, loop):
     pool = app.config['pool']
     async with pool.acquire() as conn:
         await conn.close()
-
-
-@app.route("/")
-async def test(request):
-    return response.json({"hello": "world"})
 
 
 if __name__ == "__main__":
