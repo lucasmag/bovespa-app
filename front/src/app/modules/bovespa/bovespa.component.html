@@ -1,0 +1,43 @@
+<div class="top-bar">
+
+</div>
+<div class="content" role="main" fxLayout="column">
+    <div class="quotes-header-info">
+        <div>
+            <h1 class="stock-title">Índice Bovespa IBOV</h1>
+        </div>
+        <div class="sub-header">
+            <p class="stock-name">IBOVESPA</p>
+            <div class="date-update">
+                <i class="material-icons">error_outline</i>
+                <span>Atualizado às. Delay 15 min</span>
+            </div>
+        </div>
+
+        <div class="line-info" fxLayout="row" fxLayoutGap="30px">
+            <i class="material-icons arrow">arrow_downward</i>
+            <div class="stock-info">
+                <span class="stock-points">{{stockQuote.price}}</span>
+                <label>Pontos</label>
+            </div>
+            <div class="stock-info">
+                <p class="negative">{{stockQuote.change_percent}}</p>
+                <label>Variação (dia)</label>
+            </div>
+            <div class="stock-info">
+                <p>{{stockQuote.low}}</p>
+                <label>Mín (Dia)</label>
+            </div>
+            <div class="stock-info">
+                <p>{{stockQuote.high}}</p>
+                <label>Máx (Dia)</label>
+            </div>
+            <div class="stock-info">
+                <p>{{stockQuote.volume}}</p>
+                <label>Volume</label>
+            </div>
+        </div>
+    </div>
+</div>
+
+
