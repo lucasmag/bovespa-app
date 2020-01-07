@@ -1,6 +1,6 @@
 from app.rest.company import company_repository as repository
+from app.resources.db.persistence.companies import companies
 from asyncpg.exceptions import UniqueViolationError
-from app.resources.companies_data import companies
 from alpha_vantage.timeseries import TimeSeries
 from app.resources import validation
 from app.util import consts

@@ -1,4 +1,11 @@
 .idea
 pgdata/
-*venv/
+venv/
 *__pycache__/
+.tmp/
+bower_components/
+node_modules/
+dist/
+*.iml
+*.DS_Store
+package-lock.json

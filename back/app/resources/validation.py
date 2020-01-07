@@ -1,4 +1,4 @@
-from app.resources.companies_data import companies
+from app.resources.db.persistence.companies import companies
 from schema import Schema, And
 
 symbols: list = []

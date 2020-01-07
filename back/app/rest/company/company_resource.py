@@ -8,7 +8,7 @@ company = Blueprint('company', url_prefix='/empresas')
 @company.route("/top-10", methods=['GET'])
 async def get_top_10_companies(request):
     resp, stts = await service.get_top_10_companies(request)
-    return response.json(resp, status=stts, ensure_ascii=False)
+    return response.json(resp, status=stts)
 
 
 @company.route("/<company_symbol>/cotacao", methods=['GET'])
