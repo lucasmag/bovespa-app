@@ -95,3 +95,8 @@ label {
     margin: 50px;
     position: center;
 }
+
+.chart{
+    height: auto;
+    margin-top: 100px;
+}

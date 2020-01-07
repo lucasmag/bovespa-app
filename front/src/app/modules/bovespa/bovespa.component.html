@@ -1,8 +1,6 @@
-<div class="top-bar">
-
-</div>
+<div class="top-bar"></div>
 <div class="content" role="main" fxLayout="column">
-    <div class="quotes-header-info">
+    <div id="bovespa-stock" class="quotes-header-info">
         <div>
             <h1 class="stock-title">Índice Bovespa IBOV</h1>
         </div>
@@ -10,7 +8,7 @@
             <p class="stock-name">IBOVESPA</p>
             <div class="date-update">
                 <i class="material-icons">error_outline</i>
-                <span>Atualizado às. Delay 15 min</span>
+                <span>Atualizado em {{stockQuote.latest_trading_day}}</span>
             </div>
         </div>
 
@@ -38,6 +36,9 @@
             </div>
         </div>
     </div>
+
+    <div [chart]="stock"></div>
+
 </div>
 
 

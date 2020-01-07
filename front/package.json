@@ -18,14 +18,17 @@
     "@angular/core": "~8.2.14",
     "@angular/flex-layout": "^8.0.0-beta.27",
     "@angular/forms": "~8.2.14",
+    "@angular/material": "latest",
     "@angular/platform-browser": "~8.2.14",
     "@angular/platform-browser-dynamic": "~8.2.14",
     "@angular/router": "~8.2.14",
+    "angular-highcharts": "^8.0.3",
+    "bootstrap": "^4.4.1",
+    "highcharts": "^8.0.0",
     "material-design-icons": "^3.0.1",
     "rxjs": "~6.4.0",
     "tslib": "^1.10.0",
-    "zone.js": "~0.9.1",
-    "@angular/material": "latest"
+    "zone.js": "~0.9.1"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "~0.803.21",

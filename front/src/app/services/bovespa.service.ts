@@ -7,6 +7,7 @@ import {AppConfigService} from '../app-config.service';
 @Injectable({
     providedIn: 'root'
 })
+
 export class BovespaService extends CRUDService<Bovespa> {
 
     constructor(public http: HttpClient, public appConfig: AppConfigService) {
@@ -15,5 +16,9 @@ export class BovespaService extends CRUDService<Bovespa> {
 
     getStock() {
         return this.http.get<JSON>(`${this.API_URL}/cotacao`);
+    }
+
+    get_time_series(timeInterval: string) {
+        return this.http.get<any[]>(`${this.API_URL}/historico/` + timeInterval);
     }
 }
