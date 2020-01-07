@@ -1,12 +1,14 @@
 from app.rest.company import company_service
 from asyncpg import create_pool, connect
 from app.rest.blueprints import api
+from sanic_cors import CORS
 from app.util import consts
 from sanic import Sanic
 
 
 app = Sanic(__name__)
 app.blueprint(api)
+CORS(app)
 
 
 @app.listener('before_server_start')
