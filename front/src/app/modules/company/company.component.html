@@ -1,0 +1,34 @@
+    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" style="width: 1000px">
+
+        <!-- Position Column -->
+        <ng-container matColumnDef="_position">
+            <th mat-header-cell *matHeaderCellDef> Posição </th>
+            <td mat-cell *matCellDef="let element"> {{element._position}} </td>
+        </ng-container>
+
+        <!-- Name Column -->
+        <ng-container matColumnDef="_company_name">
+            <th mat-header-cell *matHeaderCellDef> Nome </th>
+            <td mat-cell *matCellDef="let element"> {{element._company_name}} </td>
+        </ng-container>
+
+        <!-- Weight Column -->
+        <ng-container matColumnDef="_symbol">
+            <th mat-header-cell *matHeaderCellDef> Símbolo </th>
+            <td mat-cell *matCellDef="let element"> {{element._symbol}} </td>
+        </ng-container>
+
+        <!-- Symbol Column -->
+        <ng-container matColumnDef="_region">
+            <th mat-header-cell *matHeaderCellDef> Região </th>
+            <td mat-cell *matCellDef="let element"> {{element._region}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="_global_position">
+            <th mat-header-cell *matHeaderCellDef> Rank Global </th>
+            <td mat-cell *matCellDef="let element"> {{element._global_position}} </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="getCompanyStock(row)"></tr>
+    </table>

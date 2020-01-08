@@ -7,6 +7,8 @@ import { NgModule } from '@angular/core';
 import stock from 'highcharts/modules/stock.src';
 import more from 'highcharts/highcharts-more.src';
 import {ChartModule, HIGHCHARTS_MODULES} from "angular-highcharts";
+import {CommonModule} from "@angular/common";
+import {CompanyModule} from "../company/company.module";
 
 
 export function highchartsModules() {
@@ -16,9 +18,11 @@ export function highchartsModules() {
 
 @NgModule({
     declarations: [
-        BovespaComponent
+        BovespaComponent,
     ],
     imports: [
+        CommonModule,
+        CompanyModule,
         BrowserModule,
         ChartModule,
         FlexLayoutModule,

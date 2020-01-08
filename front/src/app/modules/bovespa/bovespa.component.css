@@ -1,9 +1,3 @@
-.top-bar {
-    width: 100%;
-    height: 60px;
-    background-color: #212121;
-    margin: 0;
-}
 
 .stock-title {
     font-family: "Montserrat", serif;
@@ -12,6 +6,7 @@
     line-height: 32px;
     letter-spacing: -1.4px;
     margin: 0;
+
 }
 
 .sub-header {
@@ -30,13 +25,14 @@
 .quotes-header-info {
     font-family: "Montserrat", sans-serif;
     margin: auto;
+    min-width: 800px;
+    color: antiquewhite;
 }
 
 .stock-points {
     font-size: 36px;
     letter-spacing: -.5px;
     font-weight: 600;
-    color: #212121;
     margin: 0;
 }
 
@@ -54,7 +50,6 @@ label {
     font-size: 10px;
     font-weight: 500;
     line-height: 16px;
-    color: gray;
     text-transform: uppercase;
 }
 

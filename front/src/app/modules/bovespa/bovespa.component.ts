@@ -1,12 +1,12 @@
 import {BovespaService} from '../../services/bovespa.service';
 import {AfterViewInit, Component, OnInit} from '@angular/core';
 import {StockChart} from "angular-highcharts";
-
-
-declare var Highcharts: any;
+import {Bovespa} from "../../models/Bovespa";
+import {StockQuote} from "../../models/StockQuote";
+import {Theme} from "../../utils/theme/highchart"
 
 @Component({
-    selector: 'app-root',
+    selector: 'app-bovespa',
     templateUrl: './bovespa.component.html',
     styleUrls: ['./bovespa.component.css']
 })
@@ -17,53 +17,41 @@ export class BovespaComponent implements OnInit, AfterViewInit {
     stockQuote: any = [];
     bovespaTimeSeries: any = [];
     bovespaDataLoaded = false;
-    stockPrices = [];
+    bovespa: Bovespa = new Bovespa(new StockQuote(), []);
 
     constructor(private _bovespaService: BovespaService) {
     }
 
     ngOnInit(): void {
+        this.getQuote();
     }
 
     ngAfterViewInit(): void {
-        this.getQuote();
         this.getTimeSeries();
     }
 
     getQuote() {
-        this._bovespaService.getStock()
-            .subscribe(data => {
-                this.stockQuote.push({
-                    symbol: data['01. symbol'],
-                    open: +data['02. open'],
-                    high: +data['03. high'],
-                    low: +data['04. low'],
-                    latest_trading_day: data['07. latest trading day'],
-                    price: +data['05. price'],
-                    volume: +data['06. volume'],
-                    change_percent: data['10. change percent']
-                });
-                console.log(this.stockQuote);
-                this.stockQuote = this.stockQuote[0];
-
-                this.stockQuote.price = this.stockQuote.price.toLocaleString();
-                this.stockQuote.open = this.stockQuote.open.toLocaleString();
-                this.stockQuote.high = this.stockQuote.high.toLocaleString();
-                this.stockQuote.low = this.stockQuote.low.toLocaleString();
-                this.stockQuote.volume = this.stockQuote.volume.toLocaleString();
-            });
+        this._bovespaService.getStock().subscribe(data => {
+            this.bovespa.stockQuote._low = +data['04. low'];
+            this.bovespa.stockQuote._high = +data['03. high'];
+            this.bovespa.stockQuote._price = +data['05. price'];
+            this.bovespa.stockQuote._volume = +data['06. volume'];
+            this.bovespa.stockQuote._change_percent = data['10. change percent'];
+            this.bovespa.stockQuote._latest_trading_day = data['07. latest trading day'];
+            this.bovespaDataLoaded = true;
+            console.log(this.bovespa);
+        });
     }
 
     getTimeSeries() {
         this._bovespaService.get_time_series('60min')
             .subscribe(data => {
-                this.bovespaTimeSeries = data;
-                this.loadAnotherChart();
+                this.bovespa.timeSeries = data;
+                this.loadChart();
             });
     }
 
-    loadAnotherChart() {
-
+    loadChart() {
         this.stock = new StockChart({
             rangeSelector: {
                 selected: 3
@@ -74,28 +62,10 @@ export class BovespaComponent implements OnInit, AfterViewInit {
                     valueDecimals: 2
                 },
                 name: 'AAPL',
-                data: this.bovespaTimeSeries
+                data: this.bovespa.timeSeries
             }]
         });
     }
 
-    loadChart() {
-        Highcharts.stockChart('chart', {
-            rangeSelector: {
-                selected: 1
-            },
-            title: {
-                text: 'IBOVESPA'
-            },
-            series: [{
-                type: 'line',
-                tooltip: {
-                    valueDecimals: 2
-                },
-                name: 'AAPL',
-                data: this.stockPrices
-            }]
-        });
-    }
 }
 

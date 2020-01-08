@@ -1,4 +1,3 @@
-<div class="top-bar"></div>
 <div class="content" role="main" fxLayout="column">
     <div id="bovespa-stock" class="quotes-header-info">
         <div>
@@ -8,37 +7,36 @@
             <p class="stock-name">IBOVESPA</p>
             <div class="date-update">
                 <i class="material-icons">error_outline</i>
-                <span>Atualizado em {{stockQuote.latest_trading_day}}</span>
+                <span>Atualizado em {{bovespa.stockQuote._latest_trading_day}}</span>
             </div>
         </div>
 
-        <div class="line-info" fxLayout="row" fxLayoutGap="30px">
+        <div class="line-info" fxLayout="row" fxLayoutGap="30px"  *ngIf="bovespaDataLoaded">
             <i class="material-icons arrow">arrow_downward</i>
             <div class="stock-info">
-                <span class="stock-points">{{stockQuote.price}}</span>
+                <span class="stock-points">{{bovespa.stockQuote._price.toLocaleString()}}</span>
                 <label>Pontos</label>
             </div>
             <div class="stock-info">
-                <p class="negative">{{stockQuote.change_percent}}</p>
+                <p class="negative">{{bovespa.stockQuote._change_percent}}</p>
                 <label>Variação (dia)</label>
             </div>
             <div class="stock-info">
-                <p>{{stockQuote.low}}</p>
+                <p>{{bovespa.stockQuote._low.toLocaleString()}}</p>
                 <label>Mín (Dia)</label>
             </div>
             <div class="stock-info">
-                <p>{{stockQuote.high}}</p>
+                <p>{{bovespa.stockQuote._high.toLocaleString()}}</p>
                 <label>Máx (Dia)</label>
             </div>
             <div class="stock-info">
-                <p>{{stockQuote.volume}}</p>
+                <p>{{bovespa.stockQuote._volume.toLocaleString()}}</p>
                 <label>Volume</label>
             </div>
         </div>
     </div>
 
-    <div [chart]="stock"></div>
-
+    <div [chart]="stock" class="chart"></div>
 </div>
 
 

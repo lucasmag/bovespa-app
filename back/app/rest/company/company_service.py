@@ -4,6 +4,8 @@ from asyncpg.exceptions import UniqueViolationError
 from alpha_vantage.timeseries import TimeSeries
 from app.resources import validation
 from app.util import consts
+from datetime import datetime
+from time import mktime
 
 
 ts = TimeSeries(consts.API_KEY)
@@ -31,10 +33,14 @@ async def get_company_stock(request, company_symbol):
 
     if is_valid:
         try:
-            return ts.get_quote_endpoint(symbol=company_symbol)[0], 200
-        except ValueError:
+            company_stock = ts.get_quote_endpoint(symbol=company_symbol)[0]
+            async with request.app.config['pool'].acquire() as conn:
+                await conn.fetch(repository.persist_stock(company_stock))
+            return company_stock, 200
+        except Exception as e:
+            print(e)
+
             return '''Você atingiu o limite de requisições. A frequência de chamada da API é de 5 chamadas por minuto e 
             500 chamadas por dia''', 403
     else:
         return '''O símbolo fornecido não pertence a nenhuma empresa cadastrada.''', 406
-
