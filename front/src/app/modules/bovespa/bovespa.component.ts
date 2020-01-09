@@ -3,7 +3,6 @@ import {AfterViewInit, Component, OnInit} from '@angular/core';
 import {StockChart} from "angular-highcharts";
 import {Bovespa} from "../../models/Bovespa";
 import {StockQuote} from "../../models/StockQuote";
-import {Theme} from "../../utils/theme/highchart"
 
 @Component({
     selector: 'app-bovespa',
@@ -14,8 +13,6 @@ import {Theme} from "../../utils/theme/highchart"
 export class BovespaComponent implements OnInit, AfterViewInit {
 
     stock: StockChart;
-    stockQuote: any = [];
-    bovespaTimeSeries: any = [];
     bovespaDataLoaded = false;
     bovespa: Bovespa = new Bovespa(new StockQuote(), []);
 
@@ -53,6 +50,12 @@ export class BovespaComponent implements OnInit, AfterViewInit {
 
     loadChart() {
         this.stock = new StockChart({
+             colors: ['#f45b5b', '#8085e9', '#8d4654', '#7798BF', '#aaeeee',
+        '#ff0066', '#eeaaee', '#55BF3B', '#DF5353', '#7798BF', '#aaeeee'],
+            chart: {
+             backgroundColor: '#cdcdcd',
+            type: 'line'
+        },
             rangeSelector: {
                 selected: 3
             },

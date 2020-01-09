@@ -1,34 +1,77 @@
-    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" style="width: 1000px">
+<div>
+    <table class="table table-striped table-dark table-hover" id="companies">
+  <thead class="hover-line">
+  <tr>
+    <th scope="col">Posição</th>
+    <th scope="col">Nome</th>
+    <th scope="col">Símbolo</th>
+    <th scope="col">Região</th>
+    <th scope="col">Posição global</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let company of dataSource; index as i" style="width: 1000px" (click)="openCompanyModal(company, companyModal)">
+      <td>{{ company.position | number}}°</td>
+      <td>{{ company.name }}</td>
+      <td>{{ company.symbol }}</td>
+      <td>{{ company.region }}</td>
+      <td>{{ company.global_position }}</td>
+  </tr>
+  </tbody>
+</table>
 
-        <!-- Position Column -->
-        <ng-container matColumnDef="_position">
-            <th mat-header-cell *matHeaderCellDef> Posição </th>
-            <td mat-cell *matCellDef="let element"> {{element._position}} </td>
-        </ng-container>
+</div>
 
-        <!-- Name Column -->
-        <ng-container matColumnDef="_company_name">
-            <th mat-header-cell *matHeaderCellDef> Nome </th>
-            <td mat-cell *matCellDef="let element"> {{element._company_name}} </td>
-        </ng-container>
+<ng-template #companyModal let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title">{{hello}}</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+      <div class="content" role="main" fxLayout="column">
 
-        <!-- Weight Column -->
-        <ng-container matColumnDef="_symbol">
-            <th mat-header-cell *matHeaderCellDef> Símbolo </th>
-            <td mat-cell *matCellDef="let element"> {{element._symbol}} </td>
-        </ng-container>
+    <div id="bovespa-stock" class="quotes-header-info">
+        <div>
+            <h1 class="stock-title">Índice Bovespa IBOV</h1>
+        </div>
+        <div class="sub-header">
+            <p class="stock-name">{{company.name}}</p>
+            <div class="date-update">
+                <i class="material-icons">error_outline</i>
+                <span>Atualizado em {{company._stock._latest_trading_day}}</span>
+            </div>
+        </div>
 
-        <!-- Symbol Column -->
-        <ng-container matColumnDef="_region">
-            <th mat-header-cell *matHeaderCellDef> Região </th>
-            <td mat-cell *matCellDef="let element"> {{element._region}} </td>
-        </ng-container>
+        <div class="line-info" fxLayout="row" fxLayoutGap="30px"  *ngIf="stockDataLoaded">
+            <i class="material-icons arrow">arrow_downward</i>
+            <div class="stock-info">
+                <span class="stock-points">{{company._stock._price.toLocaleString()}}</span>
+                <label>Pontos</label>
+            </div>
+            <div class="stock-info">
+                <p class="negative">{{company._stock._change_percent}}</p>
+                <label>Variação (dia)</label>
+            </div>
+            <div class="stock-info">
+                <p>{{company._stock._low.toLocaleString()}}</p>
+                <label>Mín (Dia)</label>
+            </div>
+            <div class="stock-info">
+                <p>{{company._stock._high.toLocaleString()}}</p>
+                <label>Máx (Dia)</label>
+            </div>
+            <div class="stock-info">
+                <p>{{company._stock._volume.toLocaleString()}}</p>
+                <label>Volume</label>
+            </div>
+        </div>
+    </div>
+  </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Close</button>
+  </div>
+</ng-template>
 
-        <ng-container matColumnDef="_global_position">
-            <th mat-header-cell *matHeaderCellDef> Rank Global </th>
-            <td mat-cell *matCellDef="let element"> {{element._global_position}} </td>
-        </ng-container>
-
-        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="getCompanyStock(row)"></tr>
-    </table>

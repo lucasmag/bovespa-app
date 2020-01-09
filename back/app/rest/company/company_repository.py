@@ -16,7 +16,8 @@ def get_companies():
 
 
 def get_company_stock(company_symbol):
-    return "select * from public.company_stock where symbol = {}".format(company_symbol)
+    print(company_symbol)
+    return "select * from public.company_stock cs where cs.symbol = '{}'".format(company_symbol)
 
 
 def persist_stock(company):

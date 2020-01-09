@@ -1,6 +1,6 @@
-import {AfterViewInit, Component, OnInit} from '@angular/core';
+import {AfterViewInit, Component, Injectable, OnInit, ViewEncapsulation} from '@angular/core';
 import {CompanyService} from "../../services/company.service";
-import {MatTableDataSource} from "@angular/material/table";
+import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 import {Company} from "../../models/Company";
 import {StockQuote} from "../../models/StockQuote";
 
@@ -11,35 +11,72 @@ import {StockQuote} from "../../models/StockQuote";
 })
 export class CompanyComponent implements OnInit, AfterViewInit{
 
-    dataLoading: boolean;
-    displayedColumns: string[] = ['_position', '_company_name', '_symbol', '_region', '_global_position'];
+    stockDataLoaded: boolean = false;
     dataSource = [];
 
-    constructor(private _companyService: CompanyService) { }
+    company: Company = new Company('', '', 0, '', new StockQuote());
+
+    constructor(private _companyService: CompanyService, private companyStock: CompanyStock) { }
 
     ngOnInit(): void {
 
     }
 
+    hello = 'hello';
+
+
     ngAfterViewInit(): void {
         this._companyService.getTop10().subscribe(data => {
             this.dataSource = data.map(function (c) {
                 return {
-                    _region : c['region'],
-                    _symbol : c['symbol'],
-                    _position: c['position'],
-                    _company_name : c['company_name'],
-                    _global_position: c['global_position']
+                    region: c['region'],
+                    symbol: c['symbol'],
+                    position: c['position'],
+                    name : c['company_name'],
+                    global_position: c['global_position']
                 }
             });
-            console.log(data)
         });
     }
 
     getCompanyStock(company) {
-        this._companyService.getCompanyStock(company._symbol).subscribe(data => {
+        console.log(company);
+        this._companyService.getCompanyStock(company.symbol).subscribe(data => {
+            this.company._stock._low = +data['04. low'];
+            this.company._stock._high = +data['03. high'];
+            this.company._stock._price = +data['05. price'];
+            this.company._stock._volume = +data['06. volume'];
+            this.company._stock._change_percent = data['10. change percent'];
+            this.company._stock._latest_trading_day = data['07. latest trading day'];
+            this.company.name = company.name;
+            this.company.symbol = company.symbol;
+            this.stockDataLoaded = true;
+            console.log(this.company);
             console.log(data)
-        })
+        });
     }
 
+
+    openCompanyModal(company, companyModal) {
+        this.getCompanyStock(company);
+        this.companyStock.openWindow(companyModal);
+    }
+}
+
+@Component({
+  selector: 'ngbd-modal-options',
+  templateUrl: './company.component.html',
+  encapsulation: ViewEncapsulation.None,
+
+})
+
+export class CompanyStock {
+    closeResult: string;
+
+    constructor(private modalService: NgbModal) {
+    }
+
+    openWindow(content) {
+        this.modalService.open(content, {windowClass: 'dark-modal', size: 'xl'});
+    }
 }
