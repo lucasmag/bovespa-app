@@ -15,7 +15,7 @@ def test_should_not_get_top_10_companies():
 
 def test_should_get_company_stock():
     requ, resp = app.test_client.get("api/empresas/OIBR-C/cotacao")
-    assert resp.status_code == 200
+    assert resp.status_code == 201  # Recurso criado
 
 
 def test_should_not_get_company_stock():
@@ -24,11 +24,6 @@ def test_should_not_get_company_stock():
 
 
 # ---TESTE DA API DA BOVESPA---
-
-def test_should_save_bovespa_stock_and_return():
-    requ, resp = app.test_client.get("api/bovespa/cotacao")
-    assert resp.status_code == 201
-
 
 def test_should_get_bovespa_stock():
     requ, resp = app.test_client.get("api/bovespa/cotacao")

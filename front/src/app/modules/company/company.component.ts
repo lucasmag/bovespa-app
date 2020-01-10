@@ -42,6 +42,7 @@ export class CompanyComponent implements OnInit, AfterViewInit{
     getCompanyStock(company) {
         this.stockDataLoaded = false;
         this._companyService.getCompanyStock(company.symbol).subscribe(data => {
+            print(data);
                 if (!data.ok) {
                     this.toastr.error('Erro ao buscar dados', 'Erro!');
                 } else {
