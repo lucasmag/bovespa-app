@@ -15,12 +15,15 @@ def get_companies():
     return "select * from public.company"
 
 
-def get_company_stock(company_symbol):
-    print(company_symbol)
-    return "select * from public.company_stock cs where cs.symbol = '{}'".format(company_symbol)
+def update_stock(company):
+    return '''UPDATE public.company_stock set 
+    symbol = '{}', high = '{}', low = '{}', price = '{}', change = '{}', change_percent = '{}', latest_trading_day = '{}'
+    where symbol = '{}' '''.format(
+        company['symbol'], company['high'], company['low'], company['price'], company['change'],
+        company['change_percent'], company['latest_trading_day'], company['symbol'])
 
 
 def persist_stock(company):
-    return '''insert into public.company_stock values ('{}', '{}', '{}', '{}', '{}', '{}' )'''.format(
-        company['01. symbol'], float(company['03. high']), float(company['04. low']), float(company['05. price']),
-        company['10. change percent'], (company['07. latest trading day']))
+    return '''insert into public.company_stock values ('{}', '{}', '{}', '{}', '{}', '{}', '{}') '''.format(
+        company['symbol'], company['high'], company['low'], company['price'], company['change'],
+        company['change_percent'], company['latest_trading_day'])

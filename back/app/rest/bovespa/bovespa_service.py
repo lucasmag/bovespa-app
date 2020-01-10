@@ -1,5 +1,6 @@
 from alpha_vantage.timeseries import TimeSeries
 from app.util.consts import BOVESPA_SYMBOL
+from app.util import stock_mapper as mapper
 from app.util import consts
 from decimal import Decimal
 from datetime import datetime
@@ -26,7 +27,7 @@ async def get_time_series(time_interval):
 
 async def get_bovespa_stock():
     try:
-        return ts.get_quote_endpoint(symbol=BOVESPA_SYMBOL)[0], 200
+        return mapper.adapt_response(ts.get_quote_endpoint(symbol=BOVESPA_SYMBOL)[0]), 200
     except ValueError:
         return '''Você atingiu o limite de requisições. A frequência de chamada da API é de 5 chamadas por minuto e 500 chamadas por dia''', 403
 
