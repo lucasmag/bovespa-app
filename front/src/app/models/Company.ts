@@ -2,15 +2,16 @@ import {StockQuote} from "./StockQuote";
 
 export class Company {
 
-     _position: number;
-     _name: string;
-     _symbol: string;
-     _globalPosition: number;
-     _region: string;
-     _stock: StockQuote;
+     private _position: number;
+     private _name: string;
+     private _symbol: string;
+     private _globalPosition: number;
+     private _region: string;
+     private _stock: StockQuote;
 
 
-    constructor(name: string, symbol: string, globalPosition: number, region: string, stock: StockQuote) {
+    constructor(position: number, name: string, symbol: string, globalPosition: number, region: string, stock: StockQuote) {
+        this._position = position;
         this._name = name;
         this._symbol = symbol;
         this._globalPosition = globalPosition;

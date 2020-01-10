@@ -1,8 +1,8 @@
 export class StockQuote {
-    _high: number;
-    _low: number;
-    _latest_trading_day: number;
-    _price: number;
-    _volume: number;
-    _change_percent: string;
+    high: number;
+    low: number;
+    latest_trading_day: string;
+    price: number;
+    change: number;
+    change_percent: number;
 }
