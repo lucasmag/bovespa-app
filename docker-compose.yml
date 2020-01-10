@@ -1,21 +1,34 @@
 version: '3'
 services:
+  database:
+    container_name: postgres # Nome do container que será criado
+    image: postgres:10 # Imagem do postgres que será utilizada
+    restart: always # Se houver algum erro o docker reinicia o container
+    environment: # Define variáveis de ambiente para o postgres
+      - POSTGRES_USER=bovespaapp
+      - POSTGRES_PASSWORD=bovespaapp
+      - POSTGRES_DB=bovespaapp
+    ports: # Associa a porta do container com a do host
+      - 5432:5432
+    volumes: # Cria um espelho do conteúdo do container, no host
+      - ./pgdata:/var/lib/postgresql/data
+
   api:
-    build: ./back
+    build: ./back # Executa o docker file presente neste diretório
     container_name: sanic
     restart: always
     ports:
       - 8000:8000
+    links: # Define que o container só será iniciado quando 'database' estiver up
+      - database 
 
-  database:
-    image: postgres:10
-    container_name: postgres
-    restart: always
-    environment:
-      - POSTGRES_USER=bovespaapp
-      - POSTGRES_PASSWORD=bovespaapp
-      - POSTGRES_DB=bovespaapp
-    ports:
-      - 5432:5432
+  front:
+    container_name: nginx
+    build: ./front
     volumes:
-      - ./pgdata:/var/lib/postgresql/data
+      - './front:/usr/src/app' 
+    ports: 
+      - '80:80'
+
+    links:
+      - api

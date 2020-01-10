@@ -12,7 +12,8 @@ CREATE TABLE IF NOT EXISTS "company_stock" (
     high NUMERIC(16, 4) NOT NULL,
     low NUMERIC(16, 4) NOT NULL,
     price NUMERIC(16, 4) NOT NULL,
-    change_percent character varying(10) NOT NULL,
+    change NUMERIC NOT NULL,
+    change_percent NUMERIC NOT NULL,
     latest_trading_day DATE NOT NULL,
     CONSTRAINT company_stock_fk FOREIGN KEY(symbol) REFERENCES company(symbol) ON DELETE CASCADE
 );
