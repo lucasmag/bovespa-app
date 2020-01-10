@@ -1,4 +1,4 @@
-(Aplicação desenvolvida para participação do processo seletivo da empresa PontoTel.)
+(Aplicação desenvolvida para participação do processo seletivo da empresa PontoTel)
 
 ## Sobre o desafio
 O desafio consiste em criar uma aplicação que busque os dados da Bovespa e das 10 maiores empresas do Brasil, em tempo real, por meio das API's da [Alpha Vantage](https://www.alphavantage.co/) e mostre esses dados em uma página html.
@@ -12,7 +12,7 @@ O desafio consiste em criar uma aplicação que busque os dados da Bovespa e das
 
 - Instalar docker - https://docs.docker.com/install/linux/docker-ce/ubuntu/
 
-- Para rodar comandos `Docker` sem sudo, siga os seguintes passos:
+- Os comandos `docker` devem ser rodados com sudo, para roda-los sem sudo, siga os seguintes passos:
 
     - Passo 1: Adicione o grupo `docker` se ele ainda não existir:
 
@@ -24,7 +24,7 @@ O desafio consiste em criar uma aplicação que busque os dados da Bovespa e das
     - Passo 2: Adicione o usuário conectado $USER ao grupo `docker`:
      
     ```bash
-    $ sudo gpasswd -a $USER docker   
+    $ sudo gpasswd -a $USER docker
     ```
   
     - Passo 3: Reinicie o `docker daemon`:
@@ -32,19 +32,18 @@ O desafio consiste em criar uma aplicação que busque os dados da Bovespa e das
      ```bash
     $ sudo service docker restart 
     ```
-    
-    - Passo 4: Mude o grupo para  `docker``:
-    
-     ```bash
-    $ newgrp - docker
-    ```
-    
   
     - Observação: Se você está no Ubuntu 14.04-15.10, use `docker.io` em vez de `docker`:
     
     ```bash
     $ sudo service docker.io restart
     ``` 
+
+    - Passo 4: Mude o grupo para  `docker``:
+    
+     ```bash
+    $ newgrp - docker
+    ```
     
 - Verificar instalação do Docker
 
@@ -78,8 +77,34 @@ Creating postgres ... done
 Creating nginx    ... done
 Creating sanic  ... done
 ```
+- Observação: a instalação de tudo pode demorar alguns minutos.
 
-- Para parar a execução do ambiente, basta entrar na pasta raíz` e executar o comando `docker-compose down`, esse é o resultado esperado:
+- Após a instalação a aplicação poderá ser acessada pelo endereço **http://localhost:4200**
+
+- observação: certifique-se de que não exista nenhum processo rodando em alguma das portas: **4200,5432,5000**
+
+- Você pode fazer a verificação seguindo os seguintes passos:
+
+    - Passo 1: Rode o seguinte código, informando uma das portas, por exemplo:
+
+    ```bash
+    $ sudo lsof -i :4200
+    ```
+
+    - A saída será nesse formato:
+
+    ```bash
+    COMMAND     PID USER   FD   TYPE  DEVICE SIZE/OFF NODE NAME
+    docker-pr 14817 root    4u  IPv6 1776586      0t0  TCP *:postgresql (LISTEN)
+    ```
+
+    - Passo 2: Mate a aplicação utilizando o `PID` informado no comando anterior:
+    
+    ```bash
+    $ sudo kill -9 14817
+    ```
+
+- Para parar a execução do ambiente, basta entrar na pasta raíz e executar o comando `docker-compose down`, esse é o resultado esperado:
 
 ```bash
 $ docker-compose down
@@ -101,5 +126,3 @@ Os _containers_ gerados são:
  - sanic
  - nginx
 ```
-
-Além da configuração dos _containers_, o arquivo é responsável por gerar uma rede Docker e um conjunto de volumes utilizados pelos _containers_.
