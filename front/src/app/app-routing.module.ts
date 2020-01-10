@@ -6,7 +6,7 @@ import {CompanyComponent} from "./modules/company/company.component";
 const routes: Route[] = [
   {path : "bovespa", component : BovespaComponent},
   {path : "empresas", component : CompanyComponent},
-  {path : "", redirectTo : "cotacao-bovespa", pathMatch: 'full'}
+  {path : "", redirectTo : "bovespa", pathMatch: 'full'}
 ];
 
 @NgModule({
