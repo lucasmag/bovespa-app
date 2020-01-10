@@ -5,38 +5,76 @@
         </div>
         <div class="sub-header">
             <p class="stock-name">IBOVESPA</p>
-            <div class="date-update">
-                <i class="material-icons">error_outline</i>
-                <span>Atualizado em {{bovespa.stockQuote._latest_trading_day}}</span>
-            </div>
+                <i class="material-icons date-update">error_outline</i>
+                <p class="date-update">Atualizado em {{bovespa.stockQuote.latest_trading_day}}</p>
         </div>
 
         <div class="line-info" fxLayout="row" fxLayoutGap="30px"  *ngIf="bovespaDataLoaded">
-            <i class="material-icons arrow">arrow_downward</i>
+            <i class="material-icons arrowRed" *ngIf="bovespa.stockQuote.change_percent < 0">arrow_downward</i>
+            <i class="material-icons arrowGreen" *ngIf="bovespa.stockQuote.change_percent >= 0">arrow_upward</i>
             <div class="stock-info">
-                <span class="stock-points">{{bovespa.stockQuote._price.toLocaleString()}}</span>
+                <span class="stock-points">{{bovespa.stockQuote.price.toLocaleString()}}</span>
                 <label>Pontos</label>
             </div>
             <div class="stock-info">
-                <p class="negative">{{bovespa.stockQuote._change_percent}}</p>
+                <p style="font-size: small; margin: auto">({{bovespa.stockQuote.change}})</p>
+                <p [ngStyle]="{color: bovespa.stockQuote.change_percent >= 0 ? '#0bb300' : '#fa3a3a'}">
+                    {{bovespa.stockQuote.change_percent}}%</p>
+
                 <label>Variação (dia)</label>
             </div>
             <div class="stock-info">
-                <p>{{bovespa.stockQuote._low.toLocaleString()}}</p>
+                <p>{{bovespa.stockQuote.low.toLocaleString()}}</p>
                 <label>Mín (Dia)</label>
             </div>
             <div class="stock-info">
-                <p>{{bovespa.stockQuote._high.toLocaleString()}}</p>
+                <p>{{bovespa.stockQuote.high.toLocaleString()}}</p>
                 <label>Máx (Dia)</label>
-            </div>
-            <div class="stock-info">
-                <p>{{bovespa.stockQuote._volume.toLocaleString()}}</p>
-                <label>Volume</label>
             </div>
         </div>
     </div>
 
-    <div [chart]="stock" class="chart"></div>
+<div class="btn-group btn-group-toggle buttons" ngbRadioGroup name="radioBasic" [(ngModel)]="ok">
+  <label ngbButtonLabel class="btn-primary">
+    <input ngbButton type="radio" value="1min" (click)="getTimeSeries('1min')"> 1 min
+  </label>
+  <label ngbButtonLabel class="btn-primary" >
+    <input ngbButton type="radio" value="5min" (click)="getTimeSeries('5min')"> 5 min
+  </label>
+  <label ngbButtonLabel class="btn-primary">
+    <input ngbButton type="radio" value="15min" (click)="getTimeSeries('15min')"> 15 min
+  </label>
+      <label ngbButtonLabel class="btn-primary">
+    <input ngbButton type="radio" value="30min" (click)="getTimeSeries('30min')"> 30 min
+  </label>
+      <label ngbButtonLabel class="btn-primary">
+    <input ngbButton type="radio" value="60min" (click)="getTimeSeries('60min')"> 60 min
+  </label>
 </div>
+
+    <div [chart]="stock" class="chart"></div>
+
+</div>
+
+
+<ng-template #errorModal let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title">Erro ao Buscar Informações</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+      <p style="text-align: center">Você atingiu o limite de requisições. A frequência de chamada da API é de 5 chamadas por minuto e
+            500 chamadas por dia.</p>
+      <br/>
+      <br/>
+      <p style="text-align: center">Aguarde um momento e atualize a página.</p>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Fechar</button>
+  </div>
+</ng-template>
+
 
 

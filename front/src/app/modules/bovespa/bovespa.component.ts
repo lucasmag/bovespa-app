@@ -1,8 +1,10 @@
 import {BovespaService} from '../../services/bovespa.service';
-import {AfterViewInit, Component, OnInit} from '@angular/core';
+import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
 import {StockChart} from "angular-highcharts";
 import {Bovespa} from "../../models/Bovespa";
 import {StockQuote} from "../../models/StockQuote";
+import {Modal} from "../company/CompanyStockView/modal.component";
+import {ToastrService} from "ngx-toastr";
 
 @Component({
     selector: 'app-bovespa',
@@ -13,10 +15,14 @@ import {StockQuote} from "../../models/StockQuote";
 export class BovespaComponent implements OnInit, AfterViewInit {
 
     stock: StockChart;
-    bovespaDataLoaded = false;
+    bovespaDataLoaded = [false, false];
     bovespa: Bovespa = new Bovespa(new StockQuote(), []);
+    ok: string;
 
-    constructor(private _bovespaService: BovespaService) {
+    @ViewChild('errorModal', {static: false}) errorModal;
+
+
+    constructor(private _bovespaService: BovespaService, private modal: Modal, private toastr: ToastrService) {
     }
 
     ngOnInit(): void {
@@ -24,27 +30,28 @@ export class BovespaComponent implements OnInit, AfterViewInit {
     }
 
     ngAfterViewInit(): void {
-        this.getTimeSeries();
+        this.getTimeSeries('60min');
     }
 
     getQuote() {
         this._bovespaService.getStock().subscribe(data => {
-            this.bovespa.stockQuote._low = +data['04. low'];
-            this.bovespa.stockQuote._high = +data['03. high'];
-            this.bovespa.stockQuote._price = +data['05. price'];
-            this.bovespa.stockQuote._volume = +data['06. volume'];
-            this.bovespa.stockQuote._change_percent = data['10. change percent'];
-            this.bovespa.stockQuote._latest_trading_day = data['07. latest trading day'];
-            this.bovespaDataLoaded = true;
-            console.log(this.bovespa);
+            if (!data.ok) {
+                    this.openModal();
+            }
+            this.bovespa.stockQuote = data.body;
         });
     }
 
-    getTimeSeries() {
-        this._bovespaService.get_time_series('60min')
+    getTimeSeries(interval: string) {
+        this._bovespaService.get_time_series(interval)
             .subscribe(data => {
-                this.bovespa.timeSeries = data;
+                this.bovespa.timeSeries = data.body;
                 this.loadChart();
+                if (!data.ok) {
+                    this.openModal();
+                } else {
+                    this.toastr.success('Dados carregados', 'Sucesso!');
+                }
             });
     }
 
@@ -70,5 +77,8 @@ export class BovespaComponent implements OnInit, AfterViewInit {
         });
     }
 
+    openModal(){
+        this.modal.openWindow(this.errorModal);
+    }
 }
 

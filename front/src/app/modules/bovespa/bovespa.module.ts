@@ -9,6 +9,9 @@ import more from 'highcharts/highcharts-more.src';
 import {ChartModule, HIGHCHARTS_MODULES} from "angular-highcharts";
 import {CommonModule} from "@angular/common";
 import {CompanyModule} from "../company/company.module";
+import {Modal} from "../company/CompanyStockView/modal.component";
+import {NgbButtonsModule} from "@ng-bootstrap/ng-bootstrap";
+import {FormsModule} from "@angular/forms";
 
 
 export function highchartsModules() {
@@ -27,9 +30,11 @@ export function highchartsModules() {
         ChartModule,
         FlexLayoutModule,
         HttpClientModule,
-        BrowserAnimationsModule
+        BrowserAnimationsModule,
+        NgbButtonsModule,
+        FormsModule
     ],
-    providers: [{ provide: HIGHCHARTS_MODULES, useFactory: highchartsModules }],
+    providers: [{ provide: HIGHCHARTS_MODULES, useFactory: highchartsModules }, Modal],
     bootstrap: [BovespaComponent]
 })
 export class BovespaModule { }

@@ -36,12 +36,20 @@
     margin: 0;
 }
 
-.arrow {
+.arrowRed {
     background-color: #fa3a3a;
     width: 30px;
     height: 30px;
-    margin: 0;
-    padding: 3px;
+    margin-top: 15px;
+    font-size: 30px;
+    color: #fff;
+}
+
+.arrowGreen {
+    background-color: #0bb300;
+    width: 30px;
+    height: 30px;
+    margin-top: 15px;
     font-size: 30px;
     color: #fff;
 }
@@ -91,7 +99,7 @@ label {
     position: center;
 }
 
-.chart{
+.buttons{
     height: auto;
     margin-top: 100px;
 }

@@ -1,4 +1,5 @@
-<div>
+
+<div style="padding: 20px; background-color: #242424">
     <table class="table table-striped table-dark table-hover" id="companies">
   <thead class="hover-line">
   <tr>
@@ -24,54 +25,57 @@
 
 <ng-template #companyModal let-modal>
   <div class="modal-header">
-    <h4 class="modal-title">{{hello}}</h4>
+    <h4 class="modal-title">Cotação da empresa</h4>
     <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
   <div class="modal-body">
       <div class="content" role="main" fxLayout="column">
+          <div *ngIf="!stockDataLoaded" style="height: 140px">
+              <p style="text-align: center">Carregando empresa. Aguarde...</p>
+          </div>
 
-    <div id="bovespa-stock" class="quotes-header-info">
+    <div id="company-stock" class="quotes-header-info" *ngIf="stockDataLoaded">
         <div>
-            <h1 class="stock-title">Índice Bovespa IBOV</h1>
+            <h1 class="stock-title">{{company.name}}</h1>
         </div>
         <div class="sub-header">
-            <p class="stock-name">{{company.name}}</p>
+            <p class="stock-name">{{company.symbol}}</p>
             <div class="date-update">
                 <i class="material-icons">error_outline</i>
-                <span>Atualizado em {{company._stock._latest_trading_day}}</span>
+                <span>Atualizado em {{company.stock.latest_trading_day}}</span>
             </div>
         </div>
 
-        <div class="line-info" fxLayout="row" fxLayoutGap="30px"  *ngIf="stockDataLoaded">
-            <i class="material-icons arrow">arrow_downward</i>
+        <div class="line-info" fxLayout="row" fxLayoutGap="30px"  >
+            <i class="material-icons arrowRed" *ngIf="company.stock.change_percent < 0">arrow_downward</i>
+            <i class="material-icons arrowGreen" *ngIf="company.stock.change_percent >= 0">arrow_upward</i>
             <div class="stock-info">
-                <span class="stock-points">{{company._stock._price.toLocaleString()}}</span>
+                <span class="stock-points">{{company.stock.price.toLocaleString()}}</span>
                 <label>Pontos</label>
             </div>
             <div class="stock-info">
-                <p class="negative">{{company._stock._change_percent}}</p>
+                <p style="font-size: small; margin: auto">({{company.stock.change}})</p>
+                <p [ngStyle]="{color: company.stock.change_percent >= 0 ? '#0bb300' : '#fa3a3a'}">
+                    {{company.stock.change_percent}}%</p>
+
                 <label>Variação (dia)</label>
             </div>
             <div class="stock-info">
-                <p>{{company._stock._low.toLocaleString()}}</p>
+                <p>{{company.stock.low.toLocaleString()}}</p>
                 <label>Mín (Dia)</label>
             </div>
             <div class="stock-info">
-                <p>{{company._stock._high.toLocaleString()}}</p>
+                <p>{{company.stock.high.toLocaleString()}}</p>
                 <label>Máx (Dia)</label>
-            </div>
-            <div class="stock-info">
-                <p>{{company._stock._volume.toLocaleString()}}</p>
-                <label>Volume</label>
             </div>
         </div>
     </div>
   </div>
   </div>
   <div class="modal-footer">
-    <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Close</button>
+    <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Fechar</button>
   </div>
 </ng-template>
 
