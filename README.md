@@ -1,4 +1,5 @@
-#BovespaApp
+##BovespaApp
+
 (Aplicação desenvolvida para participação do processo seletivo da empresa PontoTel)
 
 ## Sobre o desafio
@@ -78,9 +79,10 @@ Creating postgres ... done
 Creating sanic    ... done
 Creating nginx  ... done
 ```
-- Observação: a instalação de tudo pode demorar alguns minutos.
+- observação: a instalação de tudo pode demorar alguns minutos.
 
-- Após a instalação a aplicação poderá ser acessada pelo endereço **http://localhost:4200**
+
+- Após a instalação a aplicação poderá ser acessada pelo endereço **http://localhost:80**
 
 - observação: certifique-se de que não exista nenhum processo rodando em alguma das portas: **80,5432,8000**
 
