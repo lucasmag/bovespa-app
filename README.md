@@ -140,7 +140,7 @@ Stopping postgres ... done
     - Passo 4: Ainda na linha de comando do postgres, selecione tudo da tabela desejada:
     
     ```bash
-    $ select * from <nome-da-tabela>
+    $ select * from <nome-da-tabela>;
     ```
 
     - Passo 5: Para sair digite `\q`
@@ -170,11 +170,13 @@ Os _containers_ gerados são:
 ```
 
 - Retorna a cotação atual da Bovespa
-```
+
+```text
 /api/btextovespa/cotacao
+```
 
 - Recebe uma string que representa o código de uma empresa e retorna a cotação atual, salvando automaticamente no banco
-```
+
 ```text
 /api/empresas/<symbol>/cotacao
 ```
