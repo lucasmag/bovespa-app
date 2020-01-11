@@ -41,17 +41,16 @@ export class CompanyComponent implements OnInit, AfterViewInit{
 
     getCompanyStock(company) {
         this.stockDataLoaded = false;
-        this._companyService.getCompanyStock(company.symbol).subscribe(data => {
-            print(data);
-                if (!data.ok) {
-                    this.toastr.error('Erro ao buscar dados', 'Erro!');
-                } else {
-                    this.toastr.success('Dados salvos no banco', 'Sucesso!');
-                }
-            this.company.stock = data.body;
-            this.company.name = company.name;
-            this.company.symbol = company.symbol;
-            this.stockDataLoaded = true;
+        this._companyService.getCompanyStock(company.symbol).subscribe((data) => {
+        if (data.ok) {
+            this.toastr.success('Dados salvos no banco', 'Sucesso!');
+        }
+        this.company.stock = data.body;
+        this.company.name = company.name;
+        this.company.symbol = company.symbol;
+        this.stockDataLoaded = true;
+        },(error) => {
+            this.toastr.error('Erro ao buscar dados', 'Erro!');
         });
     }
 

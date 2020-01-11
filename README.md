@@ -81,14 +81,14 @@ Creating nginx  ... done
 
 - Após a instalação a aplicação poderá ser acessada pelo endereço **http://localhost:4200**
 
-- observação: certifique-se de que não exista nenhum processo rodando em alguma das portas: **4200,5432,5000**
+- observação: certifique-se de que não exista nenhum processo rodando em alguma das portas: **80,5432,8000**
 
 - Você pode fazer a verificação seguindo os seguintes passos:
 
     - Passo 1: Rode o seguinte código, informando uma das portas, por exemplo:
 
     ```bash
-    $ sudo lsof -i :4200
+    $ sudo lsof -i :80
     ```
 
     - A saída será nesse formato:
@@ -113,6 +113,36 @@ Stopping sanic    ... done
 Stopping postgres ... done
 ```
 
+### Banco de dados ###
+
+- Durante a execução da aplicação voce pode ver o estado do banco de dados por meio do docker da seguinte maneira:
+    
+    - Passo 1: No terminal, rode o seguinte comando para entrar no container do docker:
+
+    ```bash
+    $ docker exec -it postgres bash
+    ```
+
+    - Passo 2: Dentro do container rode o seguinte comando para entrar na linha de comando do postgres:
+
+    ```bash
+    $ psql -U bovespaapp
+    ```
+
+    - Passo 3: Na linha de comando do postgres, digite o seguinte comando para listar as tabelas da aplicação:
+    
+    ```bash
+    $ \dt
+    ```
+    - Passo 4: Ainda na linha de comando do postgres, selecione tudo da tabela desejada:
+    
+    ```bash
+    $ select * from <nome-da-tabela>
+    ```
+
+    - Passo 5: Para sair digite `\q`
+    
+
 ### Ambiente ###
 
 O docker-compose é o orquestrador de _containers_ do Docker, ou seja, ele é o responsável pela criação de _containers_ de modo automatizado, a partir de configurações prévias, com o objetivo de se possuir uma infraestrutura que possa ser commitada e versionada.
@@ -126,3 +156,83 @@ Os _containers_ gerados são:
  - sanic
  - nginx
 ```
+
+
+### Endpoints ###
+
+- Recebe uma string indicando o intervalo de pontos do timeseries e retorna uma lista de tuplas sendo [timestamp, cotação]:
+
+```text
+/api/bovespa/historico/<timeInterval> 
+```
+
+- Retorna a cotação atual da Bovespa
+```
+/api/btextovespa/cotacao
+
+- Recebe uma string que representa o código de uma empresa e retorna a cotação atual, salvando automaticamente no banco
+```
+```text
+/api/empresas/<symbol>/cotacao
+```
+
+- Retorna a lista das 10 maiores empresas brasileiras salvas no banco de dados
+
+```text
+/api/empresas/ Recebe um JSON contendo a cotação de uma empresa e persiste essa informação no banco de dados
+```
+
+### Testes ###
+
+- O arquivo de testes se encontra no diretório `/back/tests.py`
+
+- Para executá-lo, digite o seguinte comando:
+
+    ```bash
+    $ pytests tests.py
+    ```
+
+- observação: Ao rodar os testes certifique-se de não utiliza a api alguns minutos antes de iniciar, pois o AlphaVantage limita as requisições. A frequência de chamada da API é de 5 chamadas por minuto e 500 chamadas por dia.
+
+### Dependências ###
+
+#### Python:
+
++ [Python 3.7](https://www.python.org/)
++ [Sanic](https://sanic.readthedocs.io/en/latest/index.html)
+  - Framework web python assíncrono
++ [Schema](https://pypi.org/project/schema/)
+  - Biblioteca para validação de dados
++ [Asyncpg](https://magicstack.github.io/asyncpg/current/index.html)
+  - Biblioteca Python para interface com banco de dados postgreSQL
++ [Pytest](https://docs.pytest.org/en/latest/)
+  - Framework para escrever testes em Python
++ [Requests](https://requests.readthedocs.io/pt_BR/latest/user/quickstart.html)
+  - Biblioteca HTTP para Python
+
+#### Angular:
++ [Angular 8](https://angular.io/)
++ [Angular-CLI](https://cli.angular.io/)
+  - Ferramenta de linha de comando para gerenciamento de projetos Angular.
++ [NPM](https://www.npmjs.com/)
+  - Gerenciador de pacotes NodeJs
++ [Angular Bootstrap](https://ng-bootstrap.github.io/#/home)
+  - Biblioteca de layouts para Angular
++ [Highcharts](https://www.highcharts.com/blog/post/highcharts-and-angular-7/)
+  - Componente para exibição de gráficos
++ [NGX-TOASTR](https://www.npmjs.com/package/ngx-toastr)
+  - Biblioteca javascript para exibição de notificações
++ [NGINX](https://www.nginx.com/)
+  - Servidor HTTP
+
+#### Postgres:
++ [PostgreSQL 10](https://www.postgresql.org/)
+
+---
+
+- As informações de empresas foram retiradas do seguinte site:
+```text
+https://br.financas.yahoo.com/noticias/10-maiores-empresas-do-brasil-070045257.html
+```
+
+

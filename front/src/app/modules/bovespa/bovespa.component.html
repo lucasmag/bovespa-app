@@ -1,15 +1,15 @@
-<div class="content" role="main" fxLayout="column">
+<div class="content" role="main" fxLayout="column" *ngIf="bovespaDataLoaded[0] && bovespaDataLoaded[1]">
     <div id="bovespa-stock" class="quotes-header-info">
         <div>
             <h1 class="stock-title">Índice Bovespa IBOV</h1>
         </div>
         <div class="sub-header">
             <p class="stock-name">IBOVESPA</p>
-                <i class="material-icons date-update">error_outline</i>
-                <p class="date-update">Atualizado em {{bovespa.stockQuote.latest_trading_day}}</p>
+            <i class="material-icons date-update">error_outline</i>
+            <p class="date-update">Atualizado em {{bovespa.stockQuote.latest_trading_day}}</p>
         </div>
 
-        <div class="line-info" fxLayout="row" fxLayoutGap="30px"  *ngIf="bovespaDataLoaded">
+        <div class="line-info" fxLayout="row" fxLayoutGap="30px">
             <i class="material-icons arrowRed" *ngIf="bovespa.stockQuote.change_percent < 0">arrow_downward</i>
             <i class="material-icons arrowGreen" *ngIf="bovespa.stockQuote.change_percent >= 0">arrow_upward</i>
             <div class="stock-info">
@@ -34,23 +34,23 @@
         </div>
     </div>
 
-<div class="btn-group btn-group-toggle buttons" ngbRadioGroup name="radioBasic" [(ngModel)]="ok">
-  <label ngbButtonLabel class="btn-primary">
-    <input ngbButton type="radio" value="1min" (click)="getTimeSeries('1min')"> 1 min
-  </label>
-  <label ngbButtonLabel class="btn-primary" >
-    <input ngbButton type="radio" value="5min" (click)="getTimeSeries('5min')"> 5 min
-  </label>
-  <label ngbButtonLabel class="btn-primary">
-    <input ngbButton type="radio" value="15min" (click)="getTimeSeries('15min')"> 15 min
-  </label>
-      <label ngbButtonLabel class="btn-primary">
-    <input ngbButton type="radio" value="30min" (click)="getTimeSeries('30min')"> 30 min
-  </label>
-      <label ngbButtonLabel class="btn-primary">
-    <input ngbButton type="radio" value="60min" (click)="getTimeSeries('60min')"> 60 min
-  </label>
-</div>
+    <div class="btn-group btn-group-toggle buttons" ngbRadioGroup name="radioBasic" [(ngModel)]="ok">
+        <label ngbButtonLabel class="btn-primary">
+            <input ngbButton type="radio" value="1min" (click)="getTimeSeries('1min')"> 1 min
+        </label>
+        <label ngbButtonLabel class="btn-primary">
+            <input ngbButton type="radio" value="5min" (click)="getTimeSeries('5min')"> 5 min
+        </label>
+        <label ngbButtonLabel class="btn-primary">
+            <input ngbButton type="radio" value="15min" (click)="getTimeSeries('15min')"> 15 min
+        </label>
+        <label ngbButtonLabel class="btn-primary">
+            <input ngbButton type="radio" value="30min" (click)="getTimeSeries('30min')"> 30 min
+        </label>
+        <label ngbButtonLabel class="btn-primary">
+            <input ngbButton type="radio" value="60min" (click)="getTimeSeries('60min')"> 60 min
+        </label>
+    </div>
 
     <div [chart]="stock" class="chart"></div>
 
@@ -58,23 +58,28 @@
 
 
 <ng-template #errorModal let-modal>
-  <div class="modal-header">
-    <h4 class="modal-title">Erro ao Buscar Informações</h4>
-    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
-      <span aria-hidden="true">&times;</span>
-    </button>
-  </div>
-  <div class="modal-body">
-      <p style="text-align: center">Você atingiu o limite de requisições. A frequência de chamada da API é de 5 chamadas por minuto e
+    <div class="modal-header">
+        <h4 class="modal-title">Erro ao Buscar Informações</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <p style="text-align: center">Você atingiu o limite de requisições. A frequência de chamada da API é de 5
+            chamadas por minuto e
             500 chamadas por dia.</p>
-      <br/>
-      <br/>
-      <p style="text-align: center">Aguarde um momento e atualize a página.</p>
-  </div>
-  <div class="modal-footer">
-    <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Fechar</button>
-  </div>
+        <br/>
+        <br/>
+        <p style="text-align: center">Aguarde um momento e atualize a página.</p>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Fechar</button>
+    </div>
 </ng-template>
+
+<div style="height: 500px; width: 100%" *ngIf="!bovespaDataLoaded[0] && !bovespaDataLoaded[1]">
+    <p style="font-size: large; text-align: center; margin-top: 250px">Carregando informações. Aguarde...</p>
+</div>
 
 
 

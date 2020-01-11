@@ -81,9 +81,10 @@ label {
 }
 
 .date-update i {
-    font-size: 17px;
-    margin: 0 0 0 9px;
-    transform: rotate(180deg);
+    margin: 0 0 0 5px;
+    font-size: 12px;
+    line-height: 17px;
+    font-weight: 500;
     color: gray;
 }
 

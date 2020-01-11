@@ -34,25 +34,27 @@ export class BovespaComponent implements OnInit, AfterViewInit {
     }
 
     getQuote() {
+        this.bovespaDataLoaded[1] = false;
         this._bovespaService.getStock().subscribe(data => {
-            if (!data.ok) {
-                    this.openModal();
-            }
             this.bovespa.stockQuote = data.body;
+            this.bovespaDataLoaded[1] = true;
         });
     }
 
     getTimeSeries(interval: string) {
+        this.bovespaDataLoaded[0] = false;
         this._bovespaService.get_time_series(interval)
             .subscribe(data => {
                 this.bovespa.timeSeries = data.body;
                 this.loadChart();
-                if (!data.ok) {
-                    this.openModal();
-                } else {
+                if (data.ok) {
                     this.toastr.success('Dados carregados', 'Sucesso!');
                 }
-            });
+                this.bovespaDataLoaded[0] = true;
+            },(error) => {
+                this.openModal();
+                this.toastr.error('Erro ao buscar dados', 'Erro!');
+        })
     }
 
     loadChart() {
