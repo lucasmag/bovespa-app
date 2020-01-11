@@ -1,3 +1,4 @@
+#BovespaApp
 (Aplicação desenvolvida para participação do processo seletivo da empresa PontoTel)
 
 ## Sobre o desafio
@@ -184,9 +185,18 @@ Os _containers_ gerados são:
 
 ### Testes ###
 
-- O arquivo de testes se encontra no diretório `/back/tests.py`
+- Para rodar os testes entre no container do sanic com o seguinte comando:
 
-- Para executá-lo, digite o seguinte comando:
+    ```bash
+    $ docker exec -it sanic bash
+    ```
+
+- Instale o `pytest` por meio do pip3:
+
+    ```bash
+    $ pip3 install pytest
+    ```
+- Rode os testes com o seguinte comando:
 
     ```bash
     $ pytests tests.py
